@@ -4,12 +4,12 @@ import { Mission } from './mission.entity';
 
 @Controller('missions')
 export class MissionController {
-    constructor(private readonly missionsService: MissionsService) {}
+  constructor(private readonly missionsService: MissionsService) {}
 
-    @Post()
-    async create(@Body() missionData: Partial<Mission>) {
-        return await this.missionsService.create(missionData);
-    }
+  @Post()
+  async create(@Body() missionData: Partial<Mission>) {
+    return await this.missionsService.create(missionData);
+  }
 
     @Get()
     async findAll(): Promise<Mission[]> {
@@ -36,3 +36,5 @@ export class MissionController {
         return await this.missionsService.patchById(id, missionData);
     }
 }
+
+// coucou
