@@ -4,15 +4,17 @@ import { Mission } from './mission.entity';
 
 @Controller('missions')
 export class MissionController {
-    constructor(private readonly missionsService: MissionsService) {}
+  constructor(private readonly missionsService: MissionsService) {}
 
-    @Post()
-    async create(@Body() missionData: Partial<Mission>) {
-        return await this.missionsService.create(missionData);
-    }
+  @Post()
+  async create(@Body() missionData: Partial<Mission>) {
+    return await this.missionsService.create(missionData);
+  }
 
-    @Get()
-    async findAll(): Promise<Mission[]> {
-        return await this.missionsService.findAll();
-    }
+  @Get()
+  async findAll(): Promise<Mission[]> {
+    return await this.missionsService.findAll();
+  }
 }
+
+// coucou
