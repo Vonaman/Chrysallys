@@ -1,4 +1,14 @@
-import { Controller, Post, Body, Get, Delete, Param, Put, Patch, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Delete,
+  Param,
+  Put,
+  Patch,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { MissionsService } from './missions.service';
 import { Mission } from './mission.entity';
 
@@ -11,30 +21,34 @@ export class MissionController {
     return await this.missionsService.create(missionData);
   }
 
-    @Get()
-    async findAll(): Promise<Mission[]> {
-        return await this.missionsService.findAll();
-    }
+  @Get()
+  async findAll(): Promise<Mission[]> {
+    return await this.missionsService.findAll();
+  }
 
-    @Delete()
-    async deleteAll(): Promise<void> {
-        return await this.missionsService.deleteAll();
-    }
+  @Delete()
+  async deleteAll(): Promise<void> {
+    return await this.missionsService.deleteAll();
+  }
 
-    @Delete(':id')
-    async deleteById(@Param('id', ParseIntPipe) id: number): Promise<void> {
-        return await this.missionsService.deleteById(id);
-    }
+  @Delete(':id')
+  async deleteById(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return await this.missionsService.deleteById(id);
+  }
 
-    @Put(':id')
-    async update(@Param('id', ParseIntPipe) id: number, @Body() missionData: Partial<Mission>): Promise<Mission> {
-        return await this.missionsService.updateById(id, missionData);
-    }
+  @Put(':id')
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() missionData: Partial<Mission>,
+  ): Promise<Mission> {
+    return await this.missionsService.updateById(id, missionData);
+  }
 
-    @Patch(':id')
-    async patch(@Param('id', ParseIntPipe) id: number, @Body() missionData: Partial<Mission>): Promise<Mission> {
-        return await this.missionsService.patchById(id, missionData);
-    }
+  @Patch(':id')
+  async patch(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() missionData: Partial<Mission>,
+  ): Promise<Mission> {
+    return await this.missionsService.patchById(id, missionData);
+  }
 }
-
-// coucou
