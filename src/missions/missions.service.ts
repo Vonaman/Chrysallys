@@ -14,4 +14,8 @@ export class MissionsService {
     const mission = this.missionRepository.create(missionData);
     return await this.missionRepository.save(mission);
   }
+
+  async findAll(): Promise<Mission[]> {
+    return await this.missionRepository.find();
+  }
 }
