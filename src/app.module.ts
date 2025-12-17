@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MissionsModule } from './missions/missions.module';
 import { MissionReportsModule } from './mission-reports/mission-report.module';
 import { MissionStepsModule } from './mission-step/mission-step.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
     imports: [
@@ -29,6 +30,7 @@ import { MissionStepsModule } from './mission-step/mission-step.module';
       MissionsModule,
       MissionReportsModule,
       MissionStepsModule,
+      ScheduleModule.forRoot(),
     ],
   controllers: [AppController],
   providers: [AppService],

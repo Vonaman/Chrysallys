@@ -45,5 +45,19 @@ export class MissionsService {
     return this.updateById(id, missionData);
   }
 
+async deleteOldCompletedMissions(days: number): Promise<number> {
+  const result = await this.missionRepository
+    .createQueryBuilder()
+    .delete()
+    .from(Mission)
+    .where('statut = :statut', { statut: 'terminée' })
+    .andWhere(
+      'dateFin < NOW() - (:days * INTERVAL \'1 day\')',
+      { days },
+    )
+    .execute();
+
+  return result.affected || 0;
+}
 
 }
