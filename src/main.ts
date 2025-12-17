@@ -6,7 +6,7 @@ import * as bodyParser from 'body-parser';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useGlobalInterceptors(new LoggingInterceptor());
 
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
