@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MissionsModule } from './missions/missions.module';
+import { MissionReportsModule } from './mission-reports/mission-report.module';
+import { MissionStepsModule } from './mission-step/mission-step.module';
 
 @Module({
     imports: [
@@ -25,6 +27,8 @@ import { MissionsModule } from './missions/missions.module';
         logging: true,
       }),
       MissionsModule,
+      MissionReportsModule,
+      MissionStepsModule,
     ],
   controllers: [AppController],
   providers: [AppService],
