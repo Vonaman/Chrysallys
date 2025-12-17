@@ -1,0 +1,41 @@
+<h1>🚀 API Chrysallys</h1>
+
+<h2>Créer une mission</h2>
+
+<form method='POST' action='/missions-create'>
+  <div>
+    <label>Titre</label>
+    <input
+      type='text'
+      name='titre'
+      placeholder='Titre de la mission'
+      required
+    />
+  </div>
+  <div>
+    <label>Statut</label>
+    <input
+      type='text'
+      name='statut'
+      placeholder='Statut (ex: En cours)'
+      required
+    />
+  </div>
+  <div>
+    <label>Agent référent</label>
+    <input
+      type='text'
+      name='agentReferent'
+      placeholder="Nom de l'agent"
+      required
+    />
+  </div>
+  <button type='submit'>Créer la mission</button>
+</form>
+
+<hr />
+
+<ul>
+  <li><a href='/missions-view'>📋 Voir les missions</a></li>
+  <li><a href='/health'>❤️ Health check</a></li>
+</ul>

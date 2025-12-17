@@ -1,13 +1,18 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { join } from 'path';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import * as bodyParser from 'body-parser';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  console.log('DB Host:', process.env.POSTGRES_HOST);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  await app.listen(process.env.PORT ?? 3000);
+  app.setBaseViewsDir(join(__dirname, '..', 'views'));
+  app.setViewEngine('hbs');
+  app.useStaticAssets(join(__dirname, '..', 'public'));
+
+  app.use(bodyParser.urlencoded({ extended: true }));
+
+  await app.listen(3000);
 }
 bootstrap();
-
-// coucouc les ptits loups
-// euh je sais plus à force

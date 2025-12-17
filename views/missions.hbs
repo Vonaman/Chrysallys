@@ -1,0 +1,19 @@
+<h1>📋 Liste des missions</h1>
+
+<a href='/'>⬅ Retour</a>
+
+<ul>
+  {{#each missions}}
+    <li>
+      <strong>{{this.titre}}</strong>
+      —
+      {{this.statut}}
+      — Agent :
+      {{this.agentReferent}}
+    </li>
+  {{/each}}
+</ul>
+
+{{#unless missions.length}}
+  <p>Aucune mission trouvée.</p>
+{{/unless}}
