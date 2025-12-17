@@ -7,13 +7,14 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { Mission } from '../missions/mission.entity';
+import { encryptionTransformer } from '../common/encryption.transformer';
 
 @Entity()
 export class MissionStep {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: 'text', transformer: encryptionTransformer })
   description: string;
 
   @Column()

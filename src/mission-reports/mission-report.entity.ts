@@ -7,6 +7,7 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { MissionStep } from '../mission-step/mission-step.entity';
+import { encryptionTransformer } from '../common/encryption.transformer';
 
 @Entity()
 export class MissionReport {
@@ -14,6 +15,7 @@ export class MissionReport {
   id: number;
 
   @Column('text')
+  @Column('text', { transformer: encryptionTransformer })
   details: string;
 
   @Column()
