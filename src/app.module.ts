@@ -7,31 +7,32 @@ import { MissionsModule } from './missions/missions.module';
 import { MissionReportsModule } from './mission-reports/mission-report.module';
 import { MissionStepsModule } from './mission-step/mission-step.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { HealthModule } from './health/health.module';
 
 @Module({
-    imports: [
-      // Charge les variables d'environnement
-      ConfigModule.forRoot({
-        isGlobal: true, // rend les variables accessibles partout dans l'app
-      }),
-
-      // Configure la connexion à la base PostgreSQL
-      TypeOrmModule.forRoot({
-        type: 'postgres',
-        host: process.env.POSTGRES_HOST,
-        port: parseInt(process.env.POSTGRES_PORT || '5432', 10),
-        username: process.env.POSTGRES_USER,
-        password: process.env.POSTGRES_PASSWORD,
-        database: process.env.POSTGRES_DB,
-        autoLoadEntities: true,
-        synchronize: true, // ⚠️ à désactiver en production !
-        logging: true,
-      }),
-      MissionsModule,
-      MissionReportsModule,
-      MissionStepsModule,
-      ScheduleModule.forRoot(),
-    ],
+  imports: [
+    // Charge les variables d'environnement
+    ConfigModule.forRoot({
+      isGlobal: true, // rend les variables accessibles partout dans l'app
+    }),
+    // Configure la connexion à la base PostgreSQL
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.POSTGRES_HOST,
+      port: parseInt(process.env.POSTGRES_PORT || '5432', 10),
+      username: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASSWORD,
+      database: process.env.POSTGRES_DB,
+      autoLoadEntities: true,
+      synchronize: true, // ⚠️ à désactiver en production !
+      logging: true,
+    }),
+    MissionsModule,
+    MissionReportsModule,
+    MissionStepsModule,
+    ScheduleModule.forRoot(),
+    HealthModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

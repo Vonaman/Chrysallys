@@ -1,18 +1,33 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Get, Post, Body, Render, Res } from '@nestjs/common';
+import { MissionsService } from './missions/missions.service';
+import type { Response } from 'express';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly missionsService: MissionsService) {}
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Render('index')
+  home() {
+    return {};
   }
 
-  @Get("test")
-  getTest() {
-    return "test"
+  @Get('missions-view')
+  @Render('missions')
+  async missions() {
+    const missions = await this.missionsService.findAll();
+    return { missions };
   }
 
+  // 👇 NOUVELLE MÉTHODE POST
+  @Post('missions-create')
+  async createMission(@Body() body: any, @Res() res: Response) {
+    await this.missionsService.create({
+      titre: body.titre,
+      statut: body.statut,
+      agentReferent: body.agentReferent,
+    });
+
+    return res.redirect('/missions-view');
+  }
 }
