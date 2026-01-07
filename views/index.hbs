@@ -14,6 +14,12 @@
     <a href='/missions' style='padding: 20px; background: #3182ce; color: white; border-radius: 8px; text-decoration: none; text-align: center; font-weight: 600;'>
       📋 Voir les missions
     </a>
+    <a href='/mission-step' style='padding: 20px; background: #28a745; color: white; border-radius: 8px; text-decoration: none; text-align: center; font-weight: 600;'>
+      🔗 Étapes de mission
+    </a>
+    <a href='/mission-reports' style='padding: 20px; background: #ffc107; color: black; border-radius: 8px; text-decoration: none; text-align: center; font-weight: 600;'>
+      📊 Rapports de mission
+    </a>
     <a href='/auth' style='padding: 20px; background: #6c757d; color: white; border-radius: 8px; text-decoration: none; text-align: center; font-weight: 600;'>
       🔐 Authentification
     </a>
@@ -30,41 +36,27 @@
   </div>
 
   <div style='margin-top: 20px; text-align: center;'>
-    <a href='/health' style='color: #3182ce; text-decoration: none;'>❤️ Health check</a>
+    <a href='/health' target="_blank" style='color: #3182ce; text-decoration: none;'>❤️ Health check</a>
   </div>
 </div>
 
 <script>
   // Vérifier si l'utilisateur est connecté au chargement de la page
-  window.addEventListener('DOMContentLoaded', async () => {
+  window.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token');
-    if (token) {
+    const username = localStorage.getItem('username');
+    
+    if (token && username) {
       // Afficher le bouton de déconnexion
       document.getElementById('logout-btn-container').style.display = 'block';
-
-      // Récupérer le profil utilisateur
-      try {
-        const response = await fetch('/auth/profile', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        });
-
-        if (response.ok) {
-          const user = await response.json();
-          // Afficher le message personnalisé
-          document.getElementById('welcome-message').textContent = `Bienvenue agent ${user.username}`;
-        }
-      } catch (error) {
-        console.error('Erreur lors de la récupération du profil:', error);
-      }
+      // Afficher le message personnalisé
+      document.getElementById('welcome-message').textContent = `Bienvenue agent ${username}`;
     }
   });
 
   function handleLogout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('username');
     document.getElementById('logout-btn-container').style.display = 'none';
     alert('Vous avez été déconnecté');
     location.reload();

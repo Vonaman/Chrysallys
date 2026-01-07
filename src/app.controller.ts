@@ -1,10 +1,16 @@
 import { Controller, Get, Post, Body, Render, Res } from '@nestjs/common';
 import { MissionsService } from './missions/missions.service';
+import { MissionStepsService } from './mission-step/mission-step.service';
+import { MissionReportsService } from './mission-reports/mission-report.service';
 import type { Response } from 'express';
 
 @Controller()
 export class AppController {
-  constructor(private readonly missionsService: MissionsService) {}
+  constructor(
+    private readonly missionsService: MissionsService,
+    private readonly missionStepsService: MissionStepsService,
+    private readonly missionReportsService: MissionReportsService,
+  ) {}
 
   @Get()
   @Render('index')
@@ -33,5 +39,22 @@ export class AppController {
       agentReferent: body.agentReferent,
     });
 
-    return res.redirect('/missions');  }
+    return res.redirect('/missions');
+  }
+
+  @Get('mission-step')
+  @Render('mission-step')
+  async missionStepsList() {
+    const missionSteps = await this.missionStepsService.findAll();
+    const missions = await this.missionsService.findAll();
+    return { missionSteps, missions };
+  }
+
+  @Get('mission-reports')
+  @Render('mission-reports')
+  async missionReportsList() {
+    const missionReports = await this.missionReportsService.findAll();
+    const missionSteps = await this.missionStepsService.findAll();
+    return { missionReports, missionSteps };
+  }
 }

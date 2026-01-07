@@ -183,7 +183,6 @@
       .logged-in-info strong {
         display: block;
         font-size: 16px;
-        margin-bottom: 10px;
       }
     </style>
   </head>
@@ -261,22 +260,11 @@
       // Vérifier si l'utilisateur est déjà connecté au chargement
       window.addEventListener('DOMContentLoaded', async () => {
         const token = localStorage.getItem('token');
-        if (token) {
-          // Vérifier si le token est valide en appelant /auth/profile
-          try {
-            const response = await fetch('/auth/profile', {
-              headers: { 'Authorization': `Bearer ${token}` },
-            });
-            if (response.ok) {
-              const user = await response.json();
-              showLoggedInView(user);
-            } else {
-              // Token invalide, le supprimer
-              localStorage.removeItem('token');
-            }
-          } catch (error) {
-            localStorage.removeItem('token');
-          }
+        const username = localStorage.getItem('username');
+        
+        if (token && username) {
+          // Utiliser les données stockées localement
+          showLoggedInView({ username });
         }
       });
 
@@ -310,6 +298,7 @@
 
       function handleLogout() {
         localStorage.removeItem('token');
+        localStorage.removeItem('username');
         // Réinitialiser la vue
         document.getElementById('login-section').style.display = 'block';
         document.getElementById('profile-section').style.display = 'none';
@@ -352,6 +341,7 @@
 
           if (response.ok) {
             localStorage.setItem('token', data.access_token);
+            localStorage.setItem('username', data.user.username);
             showLoggedInView(data.user);
           } else {
             showMessage('login', data.message || 'Erreur lors de la connexion', 'error');
@@ -379,6 +369,7 @@
 
           if (response.ok) {
             localStorage.setItem('token', data.access_token);
+            localStorage.setItem('username', data.user.username);
             showLoggedInView(data.user);
           } else {
             showMessage('register', data.message || 'Erreur lors de l\'inscription', 'error');

@@ -1,0 +1,100 @@
+<div class="title-container">
+    <a href='/' style='display: inline-block; padding: 10px 15px; background: #6c757d; color: white; text-decoration: none; border-radius: 8px;'>⬅ Retour à l'accueil</a>
+    <h1>📊 Gestion des rapports de mission</h1>
+</div>
+
+
+<div style='max-width: 600px; margin: 30px 0;'>
+  <h2>➕ Créer un nouveau rapport</h2>
+  <form id='mission-report-form' style='background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);'>
+    <div style='margin-bottom: 15px;'>
+      <label style='display: block; font-weight: 600; margin-bottom: 5px;'>Étape de mission</label>
+      <select
+        name='missionStepId'
+        required
+        style='width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;'
+      >
+        <option value=''>Sélectionnez une étape</option>
+        {{#if missionSteps}}
+          {{#each missionSteps}}
+            <option value='{{this.id}}'>{{this.description}}</option>
+          {{/each}}
+        {{else}}
+          <option value=''>Aucune étape disponible</option>
+        {{/if}}
+      </select>
+    </div>
+    <div style='margin-bottom: 15px;'>
+      <label style='display: block; font-weight: 600; margin-bottom: 5px;'>Détails du rapport</label>
+      <textarea
+        name='details'
+        required
+        style='width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; resize: vertical;'
+      ></textarea>
+    </div>
+    <div style='margin-bottom: 15px;'>
+      <label style='display: block; font-weight: 600; margin-bottom: 5px;'>Agent rédacteur</label>
+      <input
+        type='text'
+        name='agentRedacteur'
+        required
+        style='width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;'
+      />
+    </div>
+    <button type='submit' style='width: 100%; padding: 12px; background-color: #3182ce; color: white; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; transition: background-color 0.2s;'>
+      ✅ Créer le rapport
+    </button>
+  </form>
+</div>
+
+<div>
+  <h2>📝 Liste des rapports</h2>
+  <ul style='list-style: none; padding: 0;'>
+    {{#each missionReports}}
+      <li style='background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);'>
+        <span style='color: #666; font-size: 14px;'>
+          {{this.details}}
+        </span>
+        <br />
+        <span style='color: #666; font-size: 14px;'>
+          Agent rédacteur: <strong>{{this.agentRedacteur}}</strong> | Date: <strong>{{this.dateCreation}}</strong>
+        </span>
+      </li>
+    {{/each}}
+  </ul>
+
+  {{#unless missionReports.length}}
+    <p style='background: #f0f4f8; padding: 20px; border-radius: 8px; text-align: center; color: #666;'>
+      Aucun rapport trouvé. Créez-en un en remplissant le formulaire ci-dessus.
+    </p>
+  {{/unless}}
+</div>
+
+<script>
+  document.getElementById('mission-report-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = {
+      missionStep: parseInt(formData.get('missionStepId')),
+      details: formData.get('details'),
+      agentRedacteur: formData.get('agentRedacteur'),
+    };
+
+    try {
+      const response = await fetch('/api/mission-reports', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        window.location.href = '/mission-reports';
+      } else {
+        alert('Erreur lors de la création du rapport');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Erreur lors de la création du rapport');
+    }
+  });
+</script>

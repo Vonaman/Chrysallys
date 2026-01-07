@@ -90,3 +90,26 @@ a {
   color: #3182ce;
   font-weight: 500;
 }
+
+.title-container {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: auto;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.title-container h1 {
+  flex-grow: 1;
+  text-align: center;
+  margin: 0;
+}
+
+.title-container a {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}

@@ -1,0 +1,149 @@
+<div class="title-container">
+<a href='/' style='display: inline-block; padding: 10px 15px; background: #6c757d; color: white; text-decoration: none; border-radius: 8px;'>⬅ Retour à l'accueil</a>
+<h1>🔗 Gestion des étapes de mission</h1>
+</div>
+
+
+<div style='max-width: 600px; margin: 30px 0;'>
+  <h2>➕ Créer une nouvelle étape</h2>
+  <form id='mission-step-form' style='background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);'>
+    <div style='margin-bottom: 15px;'>
+      <label style='display: block; font-weight: 600; margin-bottom: 5px;'>Mission</label>
+      <select
+        name='missionId'
+        required
+        style='width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;'
+      >
+        <option value=''>Sélectionnez une mission</option>
+        {{#if missions}}
+          {{#each missions}}
+            <option value='{{this.id}}'>{{this.titre}}</option>
+          {{/each}}
+        {{else}}
+          <option value=''>Aucune mission disponible</option>
+        {{/if}}
+      </select>
+    </div>
+    <div style='margin-bottom: 15px;'>
+      <label style='display: block; font-weight: 600; margin-bottom: 5px;'>Description</label>
+      <textarea
+        name='description'
+        placeholder='Description de l\'étape'
+        required
+        style='width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; resize: vertical;'
+      ></textarea>
+    </div>
+    <div style='margin-bottom: 15px;'>
+      <label style='display: block; font-weight: 600; margin-bottom: 5px;'>Agent assigné</label>
+      <input
+        type='text'
+        name='agentAssigne'
+        placeholder='Nom de l\'agent assigné'
+        required
+        style='width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;'
+      />
+    </div>
+    <div style='margin-bottom: 15px;'>
+      <label style='display: block; font-weight: 600; margin-bottom: 5px;'>Localisation</label>
+      <input
+        type='text'
+        name='localisation'
+        placeholder='Localisation'
+        style='width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;'
+      />
+    </div>
+    <div style='margin-bottom: 15px;'>
+      <label style='display: block; font-weight: 600; margin-bottom: 5px;'>Date début</label>
+      <input
+        type='date'
+        name='dateDebut'
+        style='width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;'
+      />
+    </div>
+    <div style='margin-bottom: 15px;'>
+      <label style='display: block; font-weight: 600; margin-bottom: 5px;'>Date fin</label>
+      <input
+        type='date'
+        name='dateFin'
+        style='width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;'
+      />
+    </div>
+    <div style='margin-bottom: 15px;'>
+      <label style='display: block; font-weight: 600; margin-bottom: 5px;'>Statut</label>
+      <select
+        name='statut'
+        required
+        style='width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;'
+      >
+        <option value=''>Sélectionnez un statut</option>
+        <option value='EN_COURS'>EN_COURS</option>
+        <option value='TERMINEE'>TERMINEE</option>
+        <option value='EN_ATTENTE'>EN_ATTENTE</option>
+      </select>
+    </div>
+    <button type='submit' style='width: 100%; padding: 12px; background-color: #3182ce; color: white; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; transition: background-color 0.2s;'>
+        Créer l'étape
+    </button>
+  </form>
+</div>
+
+<div>
+  <h2>📝 Liste des étapes</h2>
+  <ul style='list-style: none; padding: 0;'>
+    {{#each missionSteps}}
+      <li style='background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);'>
+        <span style='color: #666; font-size: 14px;'>
+          {{this.description}}
+        </span>
+        <br />
+        <span style='color: #666; font-size: 14px;'>
+          Agent: <strong>{{this.agentAssigne}}</strong> | Localisation: <strong>{{this.localisation}}</strong>
+        </span>
+        <br />
+        <span style='color: #666; font-size: 14px;'>
+          Du {{this.dateDebut}} au {{this.dateFin}} | Statut: <strong>{{this.statut}}</strong>
+        </span>
+      </li>
+    {{/each}}
+  </ul>
+
+  {{#unless missionSteps.length}}
+    <p style='background: #f0f4f8; padding: 20px; border-radius: 8px; text-align: center; color: #666;'>
+      Aucune étape trouvée. Créez-en une en remplissant le formulaire ci-dessus.
+    </p>
+  {{/unless}}
+</div>
+
+<script>
+  document.getElementById('mission-step-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = {
+      missionId: parseInt(formData.get('missionId')),
+      description: formData.get('description'),
+      agentAssigne: formData.get('agentAssigne'),
+      localisation: formData.get('localisation'),
+      dateDebut: formData.get('dateDebut') ? new Date(formData.get('dateDebut')).toISOString().split('T')[0] : null,
+      dateFin: formData.get('dateFin') ? new Date(formData.get('dateFin')).toISOString().split('T')[0] : null,
+      statut: formData.get('statut'),
+    };
+
+    try {
+      const response = await fetch('/api/mission-steps', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        window.location.href = '/mission-step';
+      } else {
+        alert('Erreur lors de la création de l\'étape');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Erreur lors de la création de l\'étape');
+    }
+  });
+</script>
+
