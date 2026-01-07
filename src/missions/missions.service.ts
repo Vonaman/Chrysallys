@@ -92,6 +92,10 @@ export class MissionsService {
     this.validateDates(missionData.dateDebut, missionData.dateFin);
   }
 
+  async count(): Promise<number> {
+    return this.missionRepository.count();
+  }
+
   async create(missionData: Partial<Mission>): Promise<Mission> {
     this.validateCreatePayload(missionData);
 
@@ -145,10 +149,7 @@ export class MissionsService {
         statut1: 'ANNULE',
         statut2: 'TERMINE',
       })
-      .andWhere(
-        'dateFin < NOW() - (:days * INTERVAL \'1 day\')',
-        { days },
-      )
+      .andWhere("dateFin < NOW() - (:days * INTERVAL '1 day')", { days })
       .execute();
 
     return result.affected || 0;
