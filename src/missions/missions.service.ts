@@ -45,19 +45,32 @@ export class MissionsService {
     return this.updateById(id, missionData);
   }
 
-async deleteOldCompletedMissions(days: number): Promise<number> {
-  const result = await this.missionRepository
-    .createQueryBuilder()
-    .delete()
-    .from(Mission)
-    .where('statut = :statut', { statut: 'terminée' })
-    .andWhere(
-      'dateFin < NOW() - (:days * INTERVAL \'1 day\')',
-      { days },
-    )
-    .execute();
+  async deleteOldCompletedMissions(days: number): Promise<number> {
+    const result = await this.missionRepository
+      .createQueryBuilder()
+      .delete()
+      .from(Mission)
+      .where('(statut = :statut1 OR statut = :statut2)', {
+        statut1: 'ANNULE',
+        statut2: 'TERMINE',
+      })
+      .andWhere(
+        'dateFin < NOW() - (:days * INTERVAL \'1 day\')',
+        { days },
+      )
+      .execute();
 
-  return result.affected || 0;
-}
+    return result.affected || 0;
+  }
+
+  async findOverdueMissions(): Promise<Pick<Mission, 'id' | 'titre'>[]> {
+    return await this.missionRepository
+      .createQueryBuilder('mission')
+      .select(['mission.id', 'mission.titre'])
+      .where('mission.statut = :statut', { statut: 'EN_COURS' })
+      .andWhere('mission.dateFin < NOW()')
+      .getMany();
+  }
+
 
 }

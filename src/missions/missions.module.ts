@@ -4,13 +4,15 @@ import { Mission } from './mission.entity';
 import { MissionController } from './mission.controller';
 import { MissionsService } from './missions.service';
 import { MissionsCleanupCron } from './cron/missions-cleanup.cron';
+import { MissionsOverdueAlertCron } from './cron/missions-overdue-alert.cron';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Mission])],
   controllers: [MissionController],
   providers: [
     MissionsService,
-    MissionsCleanupCron
+    MissionsCleanupCron,
+    MissionsOverdueAlertCron
   ],
   exports: [MissionsService],
 })

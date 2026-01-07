@@ -9,15 +9,15 @@ export class MissionsCleanupCron {
     constructor(private readonly missionsService: MissionsService) {}
 
     /**
-     * Supprime les missions terminées depuis plus de 30 jours
+     * Supprime les missions ANNULE ou TERMINE depuis plus de 1 an
      * Tous les jours à 02h00
     */
-  @Cron('*/1 * * * * *')
+  @Cron('0 2 * * *')
     async handleCleanup() {
         this.logger.log('Starting missions cleanup job');
 
         const deletedCount =
-        await this.missionsService.deleteOldCompletedMissions(30);
+        await this.missionsService.deleteOldCompletedMissions(365);
 
         this.logger.log(`Missions cleanup done (${deletedCount} deleted)`);
     }
