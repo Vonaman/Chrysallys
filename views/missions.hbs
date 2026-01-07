@@ -1,19 +1,63 @@
-<h1>📋 Liste des missions</h1>
+<h1>📋 Gestion des missions</h1>
 
-<a href='/'>⬅ Retour</a>
+<a href='/' style='display: inline-block; padding: 10px 15px; background: #6c757d; color: white; text-decoration: none; border-radius: 8px; margin-bottom: 20px;'>⬅ Retour à l'accueil</a>
 
-<ul>
-  {{#each missions}}
-    <li>
-      <strong>{{this.titre}}</strong>
-      —
-      {{this.statut}}
-      — Agent :
-      {{this.agentReferent}}
-    </li>
-  {{/each}}
-</ul>
+<div style='max-width: 600px; margin: 30px 0;'>
+  <h2>➕ Créer une nouvelle mission</h2>
+  <form method='POST' action='/missions-create' style='background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);'>
+    <div style='margin-bottom: 15px;'>
+      <label style='display: block; font-weight: 600; margin-bottom: 5px;'>Titre</label>
+      <input
+        type='text'
+        name='titre'
+        placeholder='Titre de la mission'
+        required
+        style='width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;'
+      />
+    </div>
+    <div style='margin-bottom: 15px;'>
+      <label style='display: block; font-weight: 600; margin-bottom: 5px;'>Statut</label>
+      <input
+        type='text'
+        name='statut'
+        placeholder='Statut (ex: EN_COURS, TERMINE, ANNULE)'
+        required
+        style='width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;'
+      />
+    </div>
+    <div style='margin-bottom: 15px;'>
+      <label style='display: block; font-weight: 600; margin-bottom: 5px;'>Agent référent</label>
+      <input
+        type='text'
+        name='agentReferent'
+        placeholder="Nom de l'agent"
+        required
+        style='width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;'
+      />
+    </div>
+    <button type='submit' style='width: 100%; padding: 12px; background-color: #3182ce; color: white; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; transition: background-color 0.2s;'>
+      ✅ Créer la mission
+    </button>
+  </form>
+</div>
 
-{{#unless missions.length}}
-  <p>Aucune mission trouvée.</p>
-{{/unless}}
+<div>
+  <h2>📝 Liste des missions</h2>
+  <ul style='list-style: none; padding: 0;'>
+    {{#each missions}}
+      <li style='background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);'>
+        <strong style='color: #1a202c;'>{{this.titre}}</strong>
+        <br />
+        <span style='color: #666; font-size: 14px;'>
+          Statut: <strong>{{this.statut}}</strong> | Agent: <strong>{{this.agentReferent}}</strong>
+        </span>
+      </li>
+    {{/each}}
+  </ul>
+
+  {{#unless missions.length}}
+    <p style='background: #f0f4f8; padding: 20px; border-radius: 8px; text-align: center; color: #666;'>
+      Aucune mission trouvée. Créez-en une en remplissant le formulaire ci-dessus.
+    </p>
+  {{/unless}}
+</div>

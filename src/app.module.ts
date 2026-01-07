@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MissionsModule } from './missions/missions.module';
 import { MissionReportsModule } from './mission-reports/mission-report.module';
 import { MissionStepsModule } from './mission-step/mission-step.module';
+import { AuthModule } from './auth/auth.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { HealthModule } from './health/health.module';
 
@@ -30,6 +31,7 @@ import { HealthModule } from './health/health.module';
     MissionsModule,
     MissionReportsModule,
     MissionStepsModule,
+    AuthModule,
     ScheduleModule.forRoot(),
     HealthModule,
   ],

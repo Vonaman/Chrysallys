@@ -12,7 +12,7 @@ import {
 import { MissionsService } from './missions.service';
 import { Mission } from './mission.entity';
 
-@Controller('missions')
+@Controller('api/missions')
 export class MissionController {
   constructor(private readonly missionsService: MissionsService) {}
 

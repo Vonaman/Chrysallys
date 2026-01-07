@@ -12,14 +12,19 @@ export class AppController {
     return {};
   }
 
-  @Get('missions-view')
+  @Get('auth')
+  @Render('auth')
+  authPage() {
+    return {};
+  }
+
+  @Get('missions')
   @Render('missions')
-  async missions() {
+  async missionsList() {
     const missions = await this.missionsService.findAll();
     return { missions };
   }
 
-  // 👇 NOUVELLE MÉTHODE POST
   @Post('missions-create')
   async createMission(@Body() body: any, @Res() res: Response) {
     await this.missionsService.create({
@@ -28,6 +33,5 @@ export class AppController {
       agentReferent: body.agentReferent,
     });
 
-    return res.redirect('/missions-view');
-  }
+    return res.redirect('/missions');  }
 }
