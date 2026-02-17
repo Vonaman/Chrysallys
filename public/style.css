@@ -4,6 +4,8 @@ body {
   background: #f0f4f8;
   color: #333;
   background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+  min-height: 100vh;
+  height: auto;
 }
 
 h1,

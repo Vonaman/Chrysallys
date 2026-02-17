@@ -19,13 +19,16 @@
     </div>
     <div style='margin-bottom: 15px;'>
       <label style='display: block; font-weight: 600; margin-bottom: 5px;'>Statut</label>
-      <input
-        type='text'
+      <select
         name='statut'
-        placeholder='Statut (ex: EN_COURS, TERMINE, ANNULE)'
         required
         style='width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;'
-      />
+      >
+        <option value=''>Sélectionnez un statut</option>
+        <option value='EN_COURS'>EN_COURS</option>
+        <option value='TERMINEE'>TERMINEE</option>
+        <option value='EN_ATTENTE'>EN_ATTENTE</option>
+      </select>
     </div>
     <div style='margin-bottom: 15px;'>
       <label style='display: block; font-weight: 600; margin-bottom: 5px;'>Agent référent</label>

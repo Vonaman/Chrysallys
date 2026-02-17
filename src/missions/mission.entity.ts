@@ -26,5 +26,3 @@ export class Mission {
   @UpdateDateColumn({ name: 'date_modification' })
   dateModification: Date;
 }
-
-//test pull
