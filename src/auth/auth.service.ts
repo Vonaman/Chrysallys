@@ -70,7 +70,7 @@ export class AuthService {
 
     const token = this.jwtService.sign({
       sub: user.id,
-      id: user.id, // optionnel, tu peux le retirer plus tard
+      id: user.id, 
       email: user.email,
       username: user.username,
     });
