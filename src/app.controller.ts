@@ -57,4 +57,10 @@ export class AppController {
     const missionSteps = await this.missionStepsService.findAll();
     return { missionReports, missionSteps };
   }
+
+  @Get('chat')
+  @Render('chat')
+  chat() {
+    return {};
+  }
 }

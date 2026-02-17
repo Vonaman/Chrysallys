@@ -9,6 +9,7 @@ import { MissionStepsModule } from './mission-step/mission-step.module';
 import { AuthModule } from './auth/auth.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { HealthModule } from './health/health.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { HealthModule } from './health/health.module';
     AuthModule,
     ScheduleModule.forRoot(),
     HealthModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService],

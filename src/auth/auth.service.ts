@@ -1,4 +1,8 @@
-import { Injectable, BadRequestException, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
@@ -33,6 +37,7 @@ export class AuthService {
     await this.userRepository.save(user);
 
     const token = this.jwtService.sign({
+      sub: user.id,
       id: user.id,
       email: user.email,
       username: user.username,
@@ -64,7 +69,8 @@ export class AuthService {
     }
 
     const token = this.jwtService.sign({
-      id: user.id,
+      sub: user.id,
+      id: user.id, // optionnel, tu peux le retirer plus tard
       email: user.email,
       username: user.username,
     });

@@ -1,0 +1,39 @@
+<h1>💬 Chat agents</h1>
+
+<div style='margin-bottom:12px;'>
+  <input id='token' placeholder='JWT token' style='width:520px;' />
+  <button id='connectBtn'>Connexion</button>
+</div>
+
+<div style='margin-bottom:12px;'>
+  <input id='globalMsg' placeholder='Message global' style='width:420px;' />
+  <button id='sendGlobalBtn'>Envoyer global</button>
+</div>
+
+<div style='margin-bottom:12px;'>
+  <input id='toAgentId' placeholder='toAgentId' style='width:120px;' />
+  <input id='dmMsg' placeholder='Message privé' style='width:280px;' />
+  <button id='sendDmBtn'>Envoyer DM</button>
+</div>
+
+<ul id='log'></ul>
+
+<script src='https://cdn.socket.io/4.7.5/socket.io.min.js'></script>
+<script>
+  let socket; function log(line) { const li = document.createElement('li');
+  li.textContent = line; document.getElementById('log').appendChild(li); }
+  document.getElementById('connectBtn').onclick = () => { const token =
+  document.getElementById('token').value; socket = io("http://localhost:3000", {
+  auth: { token } }); socket.on("connect", () => log("✅ connecté: " +
+  socket.id)); socket.on("disconnect", () => log("❌ déconnecté"));
+  socket.on("chat:global:new", (d) => log(`[GLOBAL] ${d.from}: ${d.message}`));
+  socket.on("chat:dm:new", (d) => log(`[DM] ${d.from} -> toi: ${d.message}`));
+  socket.on("mission:event", (e) => log(`[MISSION] ${e.type}
+  missionId=${e.missionId}`)); };
+  document.getElementById('sendGlobalBtn').onclick = () => {
+  socket.emit("chat:global", { message:
+  document.getElementById('globalMsg').value }); };
+  document.getElementById('sendDmBtn').onclick = () => { socket.emit("chat:dm",
+  { toAgentId: parseInt(document.getElementById('toAgentId').value, 10),
+  message: document.getElementById('dmMsg').value }); };
+</script>
